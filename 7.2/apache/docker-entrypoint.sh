@@ -12,7 +12,7 @@ STARTED_PREFIX="${GREEN}Started:${NO_COLOR}"
 cd "${WEB_ROOT_DIR}" || exit
 
 run_web_server() {
-  echo -e "${STARTED_PREFIX}: Apache web server"
+  echo -e "${STARTED_PREFIX} Apache web server"
   apache2-foreground
 }
 
@@ -74,10 +74,10 @@ check_database_import() {
 }
 
 replace_site_urls() {
-  if [ -z "${WORDPRESS_OLD_DOMAIN}" ]; then
-    echo -e "${INFO_PREFIX} Old URL not defined, setting URL's in wp-config.php file"
-    wp config set WP_HOME "${WORDPRESS_NEW_DOMAIN}" --add --type=constant --quiet --allow-root
-    wp config set WP_SITEURL "${WORDPRESS_NEW_DOMAIN}" --add --type=constant --quiet --allow-root
+  if [ -z "${WORDPRESS_OLD_DOMAIN}" ] || [ -z "${WORDPRESS_NEW_DOMAIN}" ]; then
+    echo -e "${INFO_PREFIX} URL's not defined, setting localhost in wp-config.php file"
+    wp config set WP_HOME "http://localhost" --add --type=constant --quiet --allow-root
+    wp config set WP_SITEURL "http://localhost" --add --type=constant --quiet --allow-root
     echo -e "${INFO_PREFIX} Done setting additional URL's in wp-config.php file"
   else
     if [ -z "${WORDPRESS_NETWORK}" ]; then
@@ -189,7 +189,7 @@ if ! [ -e index.php -a -e wp-includes/version.php ]; then
 else
   echo -e "${INFO_PREFIX} Trying to make a Wordpress install import"
   # shellcheck disable=SC2086
-  if [ -z ${WORDPRESS_DB_HOST} ] || [ -z ${WORDPRESS_DB_USER} ] || [ -z ${WORDPRESS_DB_NAME} ] || [ -z ${WORDPRESS_DB_PASSWORD} ] || [ -z ${WORDPRESS_NEW_DOMAIN} ] || [ -z ${MUST_WAIT_DB} ]; then
+  if [ -z ${WORDPRESS_DB_HOST} ] || [ -z ${WORDPRESS_DB_USER} ] || [ -z ${WORDPRESS_DB_NAME} ] || [ -z ${WORDPRESS_DB_PASSWORD} ]; then
     echo -e "${INFO_PREFIX} One or more variables are not set, cannot proceed with import";
   else
     echo -e "${INFO_PREFIX} Proceeding to Wordpress installation import"

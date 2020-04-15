@@ -4,6 +4,7 @@ ENV WEB_ROOT_DIR="/var/www/html"
 ENV WORDPRESS_LANG="pt_BR"
 ENV MUST_WAIT_DB=15
 ENV WORDPRESS_ENV="dev"
+ENV WORDPRESS_TABLE_PREFIX="wp_"
 
 COPY docker-entrypoint.sh /start
 COPY apache2-foreground.sh /usr/bin/apache2-foreground
@@ -11,7 +12,7 @@ COPY conf/default.conf /etc/apache2/sites-available/000-default.conf
 COPY conf/.htaccess /tmp/.htaccess
 COPY conf/php.ini-development /usr/local/etc/php/php.ini
 
-RUN apt-get update -y -q && apt-get install -y mysql-client curl nano wget git pwgen
+RUN apt-get update -y -q && apt-get install -y mariadb-client curl nano wget git pwgen
 
 RUN docker-php-ext-install pdo pdo_mysql
 
