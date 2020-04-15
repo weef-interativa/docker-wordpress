@@ -1,0 +1,10 @@
+[PHP]
+
+display_errors = On
+error_reporting = E_ALL
+max_input_time = 120
+max_execution_time = 120
+memory_limit = -1
+post_max_size = 128M
+upload_max_filesize = 300M
+max_file_uploads = 20
